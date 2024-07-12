@@ -1,0 +1,20 @@
+<%- include('base', {title: 'Рецепты мира - Создание рецепта'}) -%>
+<main>
+    <form>
+        <label for="title">Название рецепта:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="ingredients">Ингредиенты:</label>
+        <textarea id="ingredients" name="ingredients" required></textarea>
+
+        <button type="submit">Сохранить рецепт</button>
+    </form>
+</main>
+<footer>
+    <p>&copy; 2024 Рецепты Мира. Все права защищены.</p>
+</footer>
+</body>
+</html>

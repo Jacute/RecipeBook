@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- title %></title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать на Рецепты Мира!</h1>
+        <p>Ваш гид в мире кулинарных шедевров</p>
+        <% if (username) { %>
+            <button id="profileButton"><%= username %></button>
+            <div id="profileMenu" class="menu">
+                <ul>
+                    <li><a href="/create">Создать рецепт</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+                </ul>
+            </div>
+            <script>
+                document.getElementById('profileButton').onclick = function() {
+                    var menu = document.getElementById('profileMenu');
+                    if (menu.style.display === 'block') {
+                        menu.style.display = 'none';
+                    } else {
+                        menu.style.display = 'block';
+                    }
+                };
+                
+                document.addEventListener('click', function(event) {
+                    var isClickInside = document.getElementById('profileButton').contains(event.target) || document.getElementById('profileMenu').contains(event.target);
+                
+                    if (!isClickInside) {
+                        document.getElementById('profileMenu').style.display = 'none';
+                    }
+                });
+            </script>
+        <% } else { %>
+            <button id="registerButton">Регистрация</button>
+            <button id="loginButton">Вход</button>
+        <% } %>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="/">Главная</a></li>
+        </ul>
+    </nav>
+

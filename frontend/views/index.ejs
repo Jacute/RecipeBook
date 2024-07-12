@@ -1,0 +1,86 @@
+<%- include('base', {title: 'Рецепты мира'}) -%>
+<main>
+    <section>
+        <h2>Что вы найдете на нашем сайте:</h2>
+        <ul>
+            <li>Уникальные рецепты</li>
+            <li>Пошаговые инструкции</li>
+            <li>Советы от шеф-поваров</li>
+            <li>Видео-уроки</li>
+        </ul>
+    </section>
+    <section id="featured">
+        <h2>Избранные рецепты</h2>
+        <script>
+            const recipes = document.getElementById("featured");
+            fetch('/api/recipes', {
+                method: 'GET',
+            }).then(async res => {
+                return await res.json();
+            }).then(async data => {
+                data.forEach(recipe => {
+                    const card = document.createElement('div');
+                    card.classList.add('recipe-card');
+                    const header = document.createElement('h3');
+                    header.textContent = recipe.name;
+                    const description = document.createElement('p');
+                    if (recipe.description.length > 10) {
+                        description.textContent = recipe.description.substring(0, 50) + '...';
+                    } else {
+                        description.textContent = recipe.description;
+                    }
+                    const button = document.createElement('button');
+                    button.textContent = 'Подробнее';
+                    button.setAttribute("onclick", `location.href = '/receipe?id=${recipe.id}'`);
+
+                    card.appendChild(header);
+                    card.appendChild(description);
+                    card.appendChild(button);
+                    recipes.appendChild(card);
+                });
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        </script>
+        
+    </section>
+    <!-- Модальное окно входа -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Вход в аккаунт</h2>
+            <form id="loginForm" class="auth-form">
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+                <p class="loginErrors"></p>
+                <button type="submit">Войти</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Регистрация</h2>
+            <form id="registerForm" class="auth-form">
+                <label for="reg-username">Имя пользователя:</label>
+                <input type="text" id="reg-username" name="username" required>
+                <label for="reg-email">Электронная почта:</label>
+                <input type="text" id="reg-email" name="email" required>
+                <label for="reg-password">Пароль:</label>
+                <input type="password" id="reg-password" name="password" required>
+                <p id="registerErrors"></p>
+                <button form="registerForm" type="submit">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</main>
+<footer>
+    <p>&copy; 2024 Рецепты Мира. Все права защищены.</p>
+</footer>
+</body>
+</html>

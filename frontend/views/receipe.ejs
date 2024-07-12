@@ -1,0 +1,30 @@
+<%- include('base', {title: 'Рецепты мира - Рецепт'}) -%>
+<main>
+    <section class="recipes">
+        <article class="recipe">
+            <img src="/api/" alt="Фото рецепта" class="recipe-photo">
+            <h2 class="recipe-title">1</h2>
+            <p class="recipe-description">2</p>
+            <h3>Ингредиенты:</h3>
+            <ul class="recipe-ingredients">
+                3
+            </ul>
+        </article>
+    </section>
+</main>
+<script>
+    const url = new URLSearchParams(window.location.search);
+
+    const id = url.get('id');
+    fetch(`/api/recipes/${id}`).then(async res => await res.json()
+    ).then(recipe => {
+        console.log(recipe);
+    }).catch(err => {
+        console.error(err);
+    });
+</script>
+<footer>
+    <p>&copy; 2024 Рецепты Мира. Все права защищены.</p>
+</footer>
+</body>
+</html>
