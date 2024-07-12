@@ -8,6 +8,6 @@ COPY views views
 COPY package* .
 COPY static static
 
-RUN npm i
+RUN npm install --production
 
 CMD ["npm", "run", "start"]
