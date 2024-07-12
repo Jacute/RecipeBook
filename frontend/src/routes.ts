@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { AuthMiddleware } from "./middlewares/middlewares";
-import { index, create, receipe } from "./handlers/other";
+import { index, create, recipe } from "./handlers/other";
 import { register, login, logout } from "./handlers/auth";
 
 const router: Router = Router();
 
 router.get('/', index);
-router.get('/receipe', receipe);
+router.get('/recipe', recipe);
 
 router.use('/create', AuthMiddleware);
 router.get('/create', create);

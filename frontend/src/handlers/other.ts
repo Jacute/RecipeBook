@@ -12,12 +12,12 @@ async function index(req: Request, res: Response) {
     res.render("index", {username: req.session.username, recipes: recipes});
 }
 
-function receipe(req: Request, res: Response) {
-    res.render("receipe", {username: req.session.username});
+function recipe(req: Request, res: Response) {
+    res.render("recipe", {username: req.session.username});
 }
 
 function create(req: Request, res: Response) {
     res.render("create", {username: req.session.username});
 }
 
-export { index, create, receipe };
+export { index, create, recipe };

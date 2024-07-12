@@ -59,7 +59,7 @@ async function logout(req: Request, res: Response) {
             return res.status(500).json({message: "Internal Server Error."});
         }
     });
-    res.redirect("/");
+    res.redirect(req.headers.referer ? req.headers.referer : "/");
 }
 
 export { register, login, logout };

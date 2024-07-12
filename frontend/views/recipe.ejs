@@ -1,0 +1,56 @@
+<%- include('base', {title: 'Рецепты мира - Рецепт'}) -%>
+<main>
+    <section id="recipes">
+        <!-- <article>
+            <img src="/api/" alt="Фото рецепта" class="recipe-photo">
+            <h2 class="recipe-title">1</h2>
+            <p class="recipe-description">2</p>
+            <h3>Ингредиенты:</h3>
+            <p></p>
+        </article> -->
+    </section>
+</main>
+<script>
+    async function loadRecipe(id) {
+        const recipesList = document.getElementById("recipes");
+
+        const recipe = await fetch(`/api/recipes/${id}`).then(async res => await res.json())
+        .catch(err => {
+            console.error(err);
+        });
+
+        const article = document.createElement('article');
+        
+        const img = document.createElement('img');
+        img.src = "/" + recipe.path;
+        img.alt = recipe.name;
+        img.classList.add('recipe-photo');
+
+        const title = document.createElement('h2');
+        title.classList.add('recipe-title');
+        title.textContent = recipe.name;
+
+        const description = document.createElement('p');
+        description.classList.add('recipe-description');
+        description.textContent = recipe.description;
+
+        const ingredientsHeader = document.createElement('h3');
+        ingredientsHeader.textContent = 'Ингредиенты:';
+
+        const ingredients = document.createElement('p');
+        ingredients.textContent = recipe.ingredients;
+
+        article.appendChild(img);
+        article.appendChild(title);
+        article.appendChild(description);
+        article.appendChild(ingredientsHeader);
+        article.appendChild(ingredients);
+
+        recipesList.appendChild(article);
+    }
+
+    const url = new URLSearchParams(window.location.search);
+    const id = url.get('id');
+    loadRecipe(id);
+</script>
+<%- include('footer') -%>
