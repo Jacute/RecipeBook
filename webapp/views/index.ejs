@@ -5,43 +5,48 @@
         <ul>
             <li>Уникальные рецепты</li>
             <li>Пошаговые инструкции</li>
-            <li>Советы от шеф-поваров</li>
             <li>Видео-уроки</li>
         </ul>
     </section>
     <section id="featured">
-        <h2>Избранные рецепты</h2>
-        <script>
-            const recipes = document.getElementById("featured");
-            fetch('/api/recipes', {
-                method: 'GET',
-            }).then(async res => {
-                return await res.json();
-            }).then(async data => {
-                data.forEach(recipe => {
-                    const card = document.createElement('div');
-                    card.classList.add('recipe-card');
-                    const header = document.createElement('h3');
-                    header.textContent = recipe.name;
-                    const description = document.createElement('p');
-                    if (recipe.description.length > 10) {
-                        description.textContent = recipe.description.substring(0, 50) + '...';
-                    } else {
-                        description.textContent = recipe.description;
-                    }
-                    const button = document.createElement('button');
-                    button.textContent = 'Подробнее';
-                    button.setAttribute("onclick", `location.href = '/recipe?id=${recipe.id}'`);
-
-                    card.appendChild(header);
-                    card.appendChild(description);
-                    card.appendChild(button);
-                    recipes.appendChild(card);
-                });
-            }).catch(error => {
-                console.error('Error:', error);
-            });
-        </script>
+        <h2>Рецепты</h2>
     </section>
 </main>
+<script>
+    const recipes = document.getElementById("featured");
+    fetch('/api/recipes', {
+        method: 'GET',
+    }).then(async res => {
+        return await res.json();
+    }).then(async data => {
+        data.forEach(recipe => {
+            const card = document.createElement('div');
+            card.classList.add('recipe-card');
+            const header = document.createElement('h3');
+            header.textContent = recipe.name;
+            const description = document.createElement('p');
+            if (recipe.description.length > 10) {
+                description.textContent = recipe.description.substring(0, 50) + '...';
+            } else {
+                description.textContent = recipe.description;
+            }
+            const recipeActions = document.createElement('div');
+            recipeActions.classList.add('recipe-actions');
+            const button = document.createElement('button');
+            button.textContent = 'Подробнее';
+            button.setAttribute("onclick", `location.href = '/recipe?id=${recipe.id}'`);
+            const img = document.createElement('img');
+            img.src = "/api/" + recipe.image_path;
+
+            card.appendChild(header);
+            card.appendChild(description);
+            recipeActions.appendChild(img);
+            recipeActions.appendChild(button);
+            card.appendChild(recipeActions);
+            recipes.appendChild(card);
+        });
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+</script>
 <%- include('footer') -%>

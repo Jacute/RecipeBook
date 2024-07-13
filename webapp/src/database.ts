@@ -1,5 +1,4 @@
 import mysql, { RowDataPacket } from 'mysql2/promise';
-import dotenv from 'dotenv';
 
 
 interface User extends RowDataPacket {
