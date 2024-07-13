@@ -16,10 +16,10 @@ func CreateRecipe(name string, description string, ingredients string, creatorUs
 	return nil
 }
 
-func GetRecipeByID(id int, creatorUsername string) (*Recipe, error) {
+func GetRecipeByID(id int) (*Recipe, error) {
 	recipe := &Recipe{}
 
-	query := DB.QueryRow("SELECT id, name, description, ingredients FROM recipes WHERE id = ? AND (is_private = false OR creator_id = (SELECT id FROM users WHERE username = ?))", id, creatorUsername)
+	query := DB.QueryRow("SELECT id, name, description, ingredients FROM recipes WHERE id = ? AND is_private = false", id)
 	err := query.Scan(&recipe.ID, &recipe.Name, &recipe.Description, &recipe.Ingredients)
 	if err != nil {
 		return recipe, err

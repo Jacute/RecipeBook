@@ -4,7 +4,6 @@ import (
 	"RecipeBookApi/database"
 	"strconv"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,12 +17,6 @@ func GetRecipes(c *gin.Context) {
 }
 
 func GetRecipeByID(c *gin.Context) {
-	session := sessions.Default(c)
-	username, ok := session.Get("username").(string)
-	if !ok {
-		username = ""
-	}
-
 	recipeIDStr := c.Param("id")
 	recipeID, err := strconv.Atoi(recipeIDStr)
 	if err != nil {
@@ -31,10 +24,14 @@ func GetRecipeByID(c *gin.Context) {
 		return
 	}
 
-	recipe, err := database.GetRecipeByID(recipeID, username)
+	recipe, err := database.GetRecipeByID(recipeID)
 	if err != nil {
 		c.String(404, "Recipe not found")
 		return
 	}
 	c.JSON(200, recipe)
+}
+
+func GetRecipePhoto(c *gin.Context) {
+
 }
