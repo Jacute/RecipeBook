@@ -1,4 +1,4 @@
-<%- include('base', {title: 'Рецепты мира - Рецепт'}) -%>
+<%- include('base', {title: 'RecipeBook - Рецепт'}) -%>
 <main>
     <section id="recipes">
         <!-- <article>
@@ -22,8 +22,8 @@
         const article = document.createElement('article');
         
         const img = document.createElement('img');
-        img.src = "/" + recipe.path;
-        img.alt = recipe.name;
+        img.src = "/api/" + recipe.image_path;
+        // img.alt = recipe.name;
         img.classList.add('recipe-photo');
 
         const title = document.createElement('h2');

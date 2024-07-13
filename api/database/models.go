@@ -5,6 +5,7 @@ type Recipe struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Ingredients string `json:"ingredients"`
+	ImagePath   string `json:"image_path"`
 }
 
 type User struct {

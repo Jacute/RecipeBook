@@ -2,13 +2,13 @@ package database
 
 import "log"
 
-func CreateRecipe(name string, description string, ingredients string, creatorUsername string, isPrivate bool) error {
-	stmt, err := DB.Prepare("INSERT INTO recipes (name, description, ingredients, creator_id, is_private) VALUES (?, ?, ?, (SELECT id FROM users WHERE username = ?), ?)")
+func CreateRecipe(name, description, ingredients, imagePath, creatorUsername string, isPrivate bool) error {
+	stmt, err := DB.Prepare("INSERT INTO recipes (name, description, ingredients, image_path, creator_id, is_private) VALUES (?, ?, ?, ?, (SELECT id FROM users WHERE username = ?), ?)")
 	if err != nil {
 		log.Println(err.Error())
 		return err
 	}
-	_, err = stmt.Exec(name, description, ingredients, creatorUsername, isPrivate)
+	_, err = stmt.Exec(name, description, ingredients, imagePath, creatorUsername, isPrivate)
 	if err != nil {
 		log.Println(err.Error())
 		return err
@@ -19,8 +19,8 @@ func CreateRecipe(name string, description string, ingredients string, creatorUs
 func GetRecipeByID(id int) (*Recipe, error) {
 	recipe := &Recipe{}
 
-	query := DB.QueryRow("SELECT id, name, description, ingredients FROM recipes WHERE id = ? AND is_private = false", id)
-	err := query.Scan(&recipe.ID, &recipe.Name, &recipe.Description, &recipe.Ingredients)
+	query := DB.QueryRow("SELECT id, name, description, ingredients, image_path FROM recipes WHERE id = ? AND is_private = false", id)
+	err := query.Scan(&recipe.ID, &recipe.Name, &recipe.Description, &recipe.Ingredients, &recipe.ImagePath)
 	if err != nil {
 		return recipe, err
 	}

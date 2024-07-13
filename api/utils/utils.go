@@ -1,6 +1,9 @@
 package utils
 
-import "crypto/rand"
+import (
+	"crypto/rand"
+	"os"
+)
 
 func GenerateRandomBytes(length int) ([]byte, error) {
 	buf := make([]byte, length)
@@ -9,4 +12,12 @@ func GenerateRandomBytes(length int) ([]byte, error) {
 		return nil, err
 	}
 	return buf, nil
+}
+
+func FileExists(path string) bool {
+	info, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
 }

@@ -7,12 +7,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	godotenv.Load("../.env_db")
-
 	database.InitDB()
 	defer database.DB.Close()
 
@@ -22,6 +19,7 @@ func main() {
 
 	router.GET("/api/recipes", handlers.GetRecipes)
 	router.GET("/api/recipes/:id", handlers.GetRecipeByID)
+	router.GET("/api/images/:filename", handlers.GetImage)
 
 	log.Fatal(http.ListenAndServe(":8000", router))
 }

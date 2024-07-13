@@ -127,6 +127,13 @@ section {
     cursor: pointer;
 }
 
+.recipe-photo {
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
 .recipe-card button:hover {
     background-color: #ff4500;
 }

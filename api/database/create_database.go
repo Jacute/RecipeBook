@@ -55,6 +55,7 @@ func createDB() {
 		name VARCHAR(255) UNIQUE NOT NULL,
         description TEXT,
         ingredients TEXT NOT NULL,
+		image_path TEXT NOT NULL,
 		creator_id INTEGER,
 		is_private BOOLEAN DEFAULT TRUE,
 
@@ -78,7 +79,7 @@ func fillRecipes() {
 	}
 
 	for _, recipe := range recipes {
-		err = CreateRecipe(recipe.Name, recipe.Description, recipe.Ingredients, "admin", false)
+		err = CreateRecipe(recipe.Name, recipe.Description, recipe.Ingredients, recipe.ImagePath, "admin", false)
 		if err != nil {
 			log.Println(err.Error())
 		}

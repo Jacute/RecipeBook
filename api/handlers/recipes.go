@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"RecipeBookApi/database"
+	"RecipeBookApi/utils"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -32,6 +34,16 @@ func GetRecipeByID(c *gin.Context) {
 	c.JSON(200, recipe)
 }
 
-func GetRecipePhoto(c *gin.Context) {
-
+func GetImage(c *gin.Context) {
+	filename := c.Param("filename")
+	if filename == "" {
+		c.String(400, "Bad filename")
+		return
+	}
+	imagePath := filepath.Join("images", filename)
+	if !utils.FileExists(imagePath) {
+		c.String(404, "Image not found")
+		return
+	}
+	c.File(imagePath)
 }
