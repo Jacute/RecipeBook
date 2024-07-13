@@ -40,11 +40,24 @@
         const ingredients = document.createElement('p');
         ingredients.textContent = recipe.ingredients;
 
+        const stepsHeader = document.createElement('h3');
+        stepsHeader.textContent = 'Шаги по приготовлению:';
+
+        const steps = document.createElement('div');
+        steps.classList.add('recipe-steps');
+        recipe.steps.split("\n").forEach(step => {
+            const elem = document.createElement('p');
+            elem.textContent = step;
+            steps.appendChild(elem);
+        });
+
         article.appendChild(img);
         article.appendChild(title);
         article.appendChild(description);
         article.appendChild(ingredientsHeader);
         article.appendChild(ingredients);
+        article.appendChild(stepsHeader);
+        article.appendChild(steps);
 
         recipesList.appendChild(article);
     }

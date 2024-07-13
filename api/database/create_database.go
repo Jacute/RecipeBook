@@ -2,6 +2,7 @@ package database
 
 import (
 	"RecipeBookApi/config"
+	"RecipeBookApi/models"
 	"database/sql"
 	"encoding/json"
 	"log"
@@ -53,8 +54,9 @@ func createDB() {
 	_, err = DB.Exec(`CREATE TABLE IF NOT EXISTS recipes (
 		id INT PRIMARY KEY AUTO_INCREMENT,
 		name VARCHAR(255) UNIQUE NOT NULL,
-        description TEXT,
+        description TEXT NOT NULL,
         ingredients TEXT NOT NULL,
+		steps TEXT NOT NULL,
 		image_path TEXT NOT NULL,
 		creator_id INTEGER,
 		is_private BOOLEAN DEFAULT TRUE,
@@ -72,14 +74,17 @@ func fillRecipes() {
 		panic(err)
 	}
 
-	var recipes []Recipe
+	var recipes []models.RecipeCreate
 	err = json.Unmarshal(bytes, &recipes)
 	if err != nil {
 		panic(err)
 	}
 
 	for _, recipe := range recipes {
-		err = CreateRecipe(recipe.Name, recipe.Description, recipe.Ingredients, recipe.ImagePath, "admin", false)
+		recipe.CreatorUsername = "admin"
+		recipe.IsPrivate = false
+
+		err = CreateRecipe(recipe)
 		if err != nil {
 			log.Println(err.Error())
 		}

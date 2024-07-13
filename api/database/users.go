@@ -1,6 +1,9 @@
 package database
 
-import "RecipeBookApi/utils"
+import (
+	"RecipeBookApi/models"
+	"RecipeBookApi/utils"
+)
 
 func AddUser(username, email, password string) error {
 	hashedPassword, err := utils.HashPassword(password)
@@ -19,8 +22,8 @@ func AddUser(username, email, password string) error {
 	return nil
 }
 
-func GetUserByUsername(username string) (*User, error) {
-	user := &User{}
+func GetUserByUsername(username string) (*models.User, error) {
+	user := &models.User{}
 	query := DB.QueryRow("SELECT username, email, password FROM users WHERE username = ?", username)
 	err := query.Scan(&user.Name, &user.Email, &user.Password)
 	if err != nil {
@@ -29,8 +32,8 @@ func GetUserByUsername(username string) (*User, error) {
 	return user, nil
 }
 
-func GetUserByEmail(email string) (*User, error) {
-	user := &User{}
+func GetUserByEmail(email string) (*models.User, error) {
+	user := &models.User{}
 	query := DB.QueryRow("SELECT username, email, password FROM users WHERE email = ?", email)
 	err := query.Scan(&user.Name, &user.Email, &user.Password)
 	if err != nil {
