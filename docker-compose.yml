@@ -1,8 +1,19 @@
 version: '3'
 services:
+  recipebook_db:
+    image: mysql:latest
+    env_file:
+     - ./.env_db
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    ports:
+      - 127.0.0.1:3306:3306
+    restart: on-failure
+    networks:
+      - mynetwork
   recipebook_api:
     build:
-      context: backend
+      context: api
       dockerfile: Dockerfile
     env_file:
       - .env_db
@@ -15,7 +26,7 @@ services:
       - mynetwork
   recipebook_webapp:
     build:
-     context: frontend
+     context: webapp
      dockerfile: Dockerfile
     env_file:
       - .env_db
@@ -32,21 +43,13 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      # - ./frontend/static:/etc/nginx/html/static
+      - ./favicon.ico:/app/favicon.ico
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - recipebook_api
       - recipebook_webapp
-    networks:
-      - mynetwork
-  recipebook_db:
-    image: mysql:latest
-    env_file:
-     - ./.env_db
-    volumes:
-      - ./mysql_data:/var/lib/mysql
-    ports:
-      - 3306:3306
-    restart: on-failure
     networks:
       - mynetwork
 
