@@ -5,6 +5,7 @@ services:
     env_file:
      - ./.env_db
     volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./mysql_data:/var/lib/mysql
     ports:
       - 127.0.0.1:3306:3306
@@ -24,6 +25,12 @@ services:
       - recipebook_db
     networks:
       - mynetwork
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/recipes || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
   recipebook_webapp:
     build:
      context: webapp
@@ -40,6 +47,12 @@ services:
       - recipebook_db
     networks:
       - mynetwork
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3223/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
   recipebook_nginx:
     image: nginx
     ports:
@@ -50,8 +63,10 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - recipebook_api
-      - recipebook_webapp
+      recipebook_api:
+        condition: service_healthy
+      recipebook_webapp:
+        condition: service_healthy
     networks:
       - mynetwork
 
