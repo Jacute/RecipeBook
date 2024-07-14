@@ -12,7 +12,7 @@ var (
 	DB *sql.DB
 )
 
-func СonnectMySQL() {
+func InitDB() {
 	var err error
 
 	connectionString := config.GetMySQL()
