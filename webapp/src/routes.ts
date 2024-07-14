@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { AuthMiddleware } from "./middlewares/middlewares";
+import { UserMiddleware, AuthMiddleware } from "./middlewares/auth";
 import { index, create, recipe } from "./handlers/other";
 import { register, login, logout } from "./handlers/auth";
 
 const router: Router = Router();
+router.get('*', UserMiddleware);
 
 router.get('/', index);
 router.get('/recipe', recipe);
