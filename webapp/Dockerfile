@@ -10,4 +10,4 @@ COPY static static
 
 RUN npm install --production
 
-CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "sleep 10 && npm run start"]
