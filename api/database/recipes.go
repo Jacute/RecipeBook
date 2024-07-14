@@ -33,7 +33,7 @@ func GetRecipeByID(id int) (*models.RecipeGet, error) {
 func GetRecipes() ([]*models.RecipeGet, error) {
 	recipes := make([]*models.RecipeGet, 0)
 
-	rows, err := DB.Query("SELECT id, name, description, ingredients FROM recipes WHERE is_private = false;")
+	rows, err := DB.Query("SELECT id, name, description, ingredients, steps, image_path FROM recipes WHERE is_private = false;")
 	if err != nil {
 		return recipes, err
 	}
@@ -42,7 +42,7 @@ func GetRecipes() ([]*models.RecipeGet, error) {
 	for rows.Next() {
 		recipe := &models.RecipeGet{}
 
-		if err := rows.Scan(&recipe.ID, &recipe.Name, &recipe.Description, &recipe.Ingredients); err != nil {
+		if err := rows.Scan(&recipe.ID, &recipe.Name, &recipe.Description, &recipe.Ingredients, &recipe.Steps, &recipe.ImagePath); err != nil {
 			return nil, err
 		}
 
