@@ -122,3 +122,7 @@ MYSQL_PASSWORD=user_password
 MYSQL_USER=user
 
 ```
+
+## Тесты
+
+**В РАЗРАБОТКЕ**
