@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import { createTableUsers } from './database';
+import helmet from 'helmet';
 
 const app: express.Application = express();
 
@@ -14,11 +15,12 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: false,
+        secure: true,
         httpOnly: true,
-        sameSite: 'lax'
+        sameSite: 'strict'
     }
 }));
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
