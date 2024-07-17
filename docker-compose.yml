@@ -9,7 +9,7 @@ services:
       - ./mysql_data:/var/lib/mysql
     ports:
       - 127.0.0.1:3306:3306
-    restart: on-failure
+    restart: "no"
     networks:
       - mynetwork
   recipebook_api:
@@ -20,7 +20,7 @@ services:
       - .env_db
     ports:
       - 127.0.0.1:8000:8000
-    restart: on-failure
+    restart: "no"
     depends_on:
       - recipebook_db
     networks:
@@ -39,7 +39,7 @@ services:
       - .env_db
     ports:
      - 127.0.0.1:3223:3223
-    restart: on-failure
+    restart: "no"
     volumes:
       - ./jwt_keys:/app/jwt_keys:ro
     depends_on:
