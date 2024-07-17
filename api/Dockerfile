@@ -7,4 +7,4 @@ COPY . .
 RUN go get
 RUN go build main.go
 
-CMD ["sh", "-c", "sleep 10 && ./main"]
+CMD ["sh", "-c", "sleep 15 && ./main"]
