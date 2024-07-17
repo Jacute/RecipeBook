@@ -20,14 +20,14 @@ docker run -d \
 -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
 -e MYSQL_USER=$MYSQL_USER \
 -p 127.0.0.1:3306:3306 mysql
-sleep 10
+sleep 12
 
 echo -e "${GREEN}Running test...${NC}"
 DATABASE_HOSTNAME=$DATABASE_HOSTNAME \
 MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
 MYSQL_DATABASE=$MYSQL_DATABASE \
 MYSQL_PASSWORD=$MYSQL_PASSWORD \
-MYSQL_USER=$MYSQL_USER go test .
+MYSQL_USER=$MYSQL_USER go test tests/*
 
 if [[ $? -eq 0 ]]; then
     echo -e "${GREEN}All tests passed${NC}"
