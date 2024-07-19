@@ -9,11 +9,11 @@ async function index(req: Request, res: Response) {
     } catch (err) {
         recipes = null;
     }
-    res.render("index", {username: req.session.username, recipes: recipes});
+    res.render("index", {username: req.session.username, recipes: recipes, nonce: res.locals.nonce});
 }
 
 function recipe(req: Request, res: Response) {
-    res.render("recipe", {username: req.session.username});
+    res.render("recipe", {username: req.session.username, nonce: res.locals.nonce});
 }
 
 function create(req: Request, res: Response) {

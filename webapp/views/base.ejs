@@ -18,7 +18,7 @@
                     <li><a href="/logout">Выйти</a></li>
                 </ul>
             </div>
-            <script>
+            <script nonce="<%- nonce %>">
                 document.getElementById('profileButton').onclick = function() {
                     var menu = document.getElementById('profileMenu');
                     if (menu.style.display === 'block') {

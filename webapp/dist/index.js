@@ -14,7 +14,7 @@ const helmet_1 = __importDefault(require("helmet"));
 const app = (0, express_1.default)();
 app.use((0, cookie_parser_1.default)());
 app.use((0, express_session_1.default)({
-    secret: 'mysecret',
+    secret: crypto.randomUUID(),
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -23,7 +23,22 @@ app.use((0, express_session_1.default)({
         sameSite: 'strict'
     }
 }));
-app.use((0, helmet_1.default)());
+app.use((req, res, next) => {
+    res.locals.nonce = crypto.randomUUID();
+    next();
+});
+app.use(helmet_1.default.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+        scriptSrc: [
+            "'self'",
+            (req, res) => `'nonce-${res.locals.nonce}'`,
+        ],
+        styleSec: [
+            "'self'"
+        ]
+    }
+}));
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');

@@ -12,7 +12,7 @@
         <h2>Рецепты</h2>
     </section>
 </main>
-<script>
+<script nonce="<%- nonce %>">
     const recipes = document.getElementById("featured");
     fetch('/api/recipes', {
         method: 'GET',

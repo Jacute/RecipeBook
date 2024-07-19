@@ -45,11 +45,11 @@ function index(req, res) {
         catch (err) {
             recipes = null;
         }
-        res.render("index", { username: req.session.username, recipes: recipes });
+        res.render("index", { username: req.session.username, recipes: recipes, nonce: res.locals.nonce });
     });
 }
 function recipe(req, res) {
-    res.render("recipe", { username: req.session.username });
+    res.render("recipe", { username: req.session.username, nonce: res.locals.nonce });
 }
 function create(req, res) {
     res.render("create", { username: req.session.username });
