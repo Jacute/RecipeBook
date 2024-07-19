@@ -5,18 +5,37 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import { createTableUsers } from './database';
+import helmet from 'helmet';
 
 const app: express.Application = express();
 
 app.use(cookieParser());
 app.use(session({
-    secret: 'mysecret',
+    secret: crypto.randomUUID(),
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: false,
+        secure: true,
         httpOnly: true,
-        sameSite: 'lax'
+        sameSite: 'strict'
+    }
+}));
+
+app.use((req, res, next) => {
+    res.locals.nonce = crypto.randomUUID();
+    next();
+})
+
+app.use(helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+        scriptSrc: [
+            "'self'",
+            (req, res) => `'nonce-${res.locals.nonce}'`,
+        ],
+        styleSec: [
+            "'self'"
+        ]
     }
 }));
 
