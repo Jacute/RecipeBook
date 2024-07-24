@@ -35,7 +35,7 @@ app.use((0, helmet_1.default)({
                 "'self'",
                 (req, res) => `'nonce-${res.locals.nonce}'`,
             ],
-            styleSec: [
+            styleSrc: [
                 "'self'"
             ]
         },
