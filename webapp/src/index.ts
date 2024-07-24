@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import { createTableUsers } from './database';
-import helmet from 'helmet';
+import helmet, { contentSecurityPolicy } from 'helmet';
 
 const app: express.Application = express();
 
@@ -26,18 +26,25 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(helmet.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-        scriptSrc: [
-            "'self'",
-            (req, res) => `'nonce-${res.locals.nonce}'`,
-        ],
-        styleSec: [
-            "'self'"
-        ]
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            useDefaults: true,
+            directives: {
+                scriptSrc: [
+                    "'self'",
+                    (req, res) => `'nonce-${res.locals.nonce}'`,
+                ],
+                styleSec: [
+                    "'self'"
+                ]
+            },
+        },
+        crossOriginResourcePolicy: {
+            policy: 'cross-origin'
+        }
     }
-}));
+));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

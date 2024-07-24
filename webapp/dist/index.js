@@ -27,16 +27,21 @@ app.use((req, res, next) => {
     res.locals.nonce = crypto.randomUUID();
     next();
 });
-app.use(helmet_1.default.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-        scriptSrc: [
-            "'self'",
-            (req, res) => `'nonce-${res.locals.nonce}'`,
-        ],
-        styleSec: [
-            "'self'"
-        ]
+app.use((0, helmet_1.default)({
+    contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+            scriptSrc: [
+                "'self'",
+                (req, res) => `'nonce-${res.locals.nonce}'`,
+            ],
+            styleSec: [
+                "'self'"
+            ]
+        },
+    },
+    crossOriginResourcePolicy: {
+        policy: 'cross-origin'
     }
 }));
 app.use(body_parser_1.default.json());
