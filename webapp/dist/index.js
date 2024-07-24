@@ -34,7 +34,7 @@ app.use(helmet_1.default.contentSecurityPolicy({
             "'self'",
             (req, res) => `'nonce-${res.locals.nonce}'`,
         ],
-        styleSec: [
+        styleSrc: [
             "'self'"
         ]
     }
