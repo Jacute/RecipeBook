@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import { createTableUsers } from './database';
-import helmet from 'helmet';
+import helmet, { contentSecurityPolicy } from 'helmet';
 
 const app: express.Application = express();
 
@@ -37,7 +37,13 @@ app.use(helmet.contentSecurityPolicy({
             "'self'"
         ]
     }
-}));
+));
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
