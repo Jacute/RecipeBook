@@ -16,11 +16,16 @@ services:
     build:
       context: api
       dockerfile: Dockerfile
+    environment:
+      - GIN_MODE=release
+      - JWT_PUBLIC_KEY_PATH=/app/jwt_keys/public.pem
     env_file:
       - .env_db
     ports:
       - 127.0.0.1:8000:8000
     restart: "no"
+    volumes:
+      - ./jwt_keys/public.pem:/app/jwt_keys/public.pem:ro
     depends_on:
       - recipebook_db
     networks:

@@ -1,7 +1,3 @@
-function showRecipe(recipeName) {
-    alert("Вы выбрали рецепт: " + recipeName);
-}
-
 var spans = document.getElementsByClassName("close");
 
 var loginModal = document.getElementById("loginModal");

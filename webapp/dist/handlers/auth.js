@@ -36,7 +36,9 @@ exports.register = register;
 exports.login = login;
 exports.logout = logout;
 const utils_1 = require("../utils/utils");
+const jwt_1 = require("../utils/jwt");
 const db = __importStar(require("../database"));
+const config = __importStar(require("../config"));
 function register(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { username, email, password } = req.body;
@@ -67,8 +69,11 @@ function register(req, res) {
             return;
         }
         req.session.username = username;
-        res.status(201).json({ message: "User registered successfully." });
-        ;
+        const token = (0, jwt_1.encodeToken)(username);
+        res
+            .status(201)
+            .cookie("auth-token", token, { maxAge: config.COOKIE_LIFETIME })
+            .json({ message: "User registered successfully." });
     });
 }
 function login(req, res) {
@@ -88,17 +93,16 @@ function login(req, res) {
             return;
         }
         req.session.username = username;
-        res.status(200).json({ message: "User logged in successfully." });
+        const token = (0, jwt_1.encodeToken)(username);
+        res.status(200)
+            .cookie("auth-token", token, { maxAge: config.COOKIE_LIFETIME })
+            .json({ message: "User logged in successfully." });
         ;
     });
 }
 function logout(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        req.session.destroy(err => {
-            if (err) {
-                return res.status(500).json({ message: "Internal Server Error." });
-            }
-        });
-        res.redirect(req.headers.referer ? req.headers.referer : "/");
+        res.clearCookie("auth-token")
+            .redirect("/");
     });
 }

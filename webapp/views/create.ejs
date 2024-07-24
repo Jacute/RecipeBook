@@ -1,16 +1,69 @@
 <%- include('base', {title: 'RecipeBook - Создание рецепта'}) -%>
 <main>
-    <form>
-        <label for="title">Название рецепта:</label>
-        <input type="text" id="title" name="title" required>
+    <form id="create-recipe">
+        <label for="name">Название рецепта</label>
+        <input type="text" id="name" name="name" required>
 
-        <label for="description">Описание:</label>
+        <label for="description">Описание</label>
         <textarea id="description" name="description" required></textarea>
 
-        <label for="ingredients">Ингредиенты:</label>
+        <label for="ingredients">Ингредиенты</label>
         <textarea id="ingredients" name="ingredients" required></textarea>
+
+        <label for="steps">Шаги по приготовлению</label>
+        <textarea id="steps" name="steps" required></textarea>
+
+        <label for="image"></label>
+        <input type="file" name="image" id="image" required>
+
+        <input type="checkbox" id="is_private" name="is_private">
+        <label for="is_private">Приватный?</label>
 
         <button type="submit">Сохранить рецепт</button>
     </form>
+    <p id="result"></p>
+    <script nonce="<%- nonce %>">
+        const form = document.getElementById('create-recipe');
+        const result = document.getElementById('result');
+
+        form.onsubmit = event => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('description').value;
+            const ingredients = document.getElementById('ingredients').value;
+            const steps = document.getElementById('steps').value;
+            const is_private = document.getElementById('is_private').checked;
+            const image = document.getElementById('image').files[0];
+
+            const recipeObj = {
+                "name": name,
+                "description": description,
+                "ingredients": ingredients,
+                "steps": steps,
+                "is_private": is_private,
+            }
+            const recipeJson = JSON.stringify(recipeObj);
+
+            const formData = new FormData();
+            formData.append('recipe', recipeJson);
+            formData.append('image', image)
+
+            fetch('/api/recipes', {
+                method: 'POST',
+                body: formData,
+            }).then(async res => {
+                if (res.status == 201) {
+                    result.textContent = 'Рецепт успешно создан!';
+                    form.reset();
+                } else {
+                    const error = await res.text();
+                    result.textContent = error;
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </main>
 <%- include('footer') -%>

@@ -32,9 +32,14 @@
             }
             const recipeActions = document.createElement('div');
             recipeActions.classList.add('recipe-actions');
+
             const button = document.createElement('button');
             button.textContent = 'Подробнее';
-            button.setAttribute("onclick", `location.href = '/recipe?id=${recipe.id}'`);
+            button.addEventListener("click", event => {
+                event.preventDefault();
+                location.href = `/recipe?id=${recipe.id}`;
+            });
+
             const img = document.createElement('img');
             img.src = "/api/" + recipe.image_path;
 
