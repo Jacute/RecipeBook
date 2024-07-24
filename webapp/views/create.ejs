@@ -21,8 +21,10 @@
 
         <button type="submit">Сохранить рецепт</button>
     </form>
+    <p id="result"></p>
     <script nonce="<%- nonce %>">
         const form = document.getElementById('create-recipe');
+        const result = document.getElementById('result');
 
         form.onsubmit = event => {
             event.preventDefault();
@@ -51,18 +53,12 @@
                 method: 'POST',
                 body: formData,
             }).then(async res => {
-                if (res.ok) {
-                    alert('Рецепт успешно создан!');
+                if (res.status == 201) {
+                    result.textContent = 'Рецепт успешно создан!';
                     form.reset();
                 } else {
-                    const errors = await res.json();
-                    const errorList = document.getElementById('createErrors');
-                    errorList.innerHTML = '';
-                    errors.forEach(error => {
-                        const errorElement = document.createElement('p');
-                        errorElement.textContent = error;
-                        errorList.appendChild(errorElement);
-                    });
+                    const error = await res.text();
+                    result.textContent = error;
                 }
             }).catch(error => {
                 console.error('Error:', error);
