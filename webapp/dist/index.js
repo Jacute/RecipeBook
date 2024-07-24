@@ -44,6 +44,11 @@ app.use((0, helmet_1.default)({
         policy: 'cross-origin'
     }
 }));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
