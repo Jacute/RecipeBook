@@ -1,17 +1,11 @@
 FROM golang:1.22.4
 
 
-WORKDIR /app
+RUN mkdir -p /app
 
-COPY config config
-COPY database database
-COPY handlers handlers
-COPY images images
-COPY middlewares middlewares
-COPY models models
-COPY utils utils
-COPY go.* .
-COPY main.go .
+COPY src /app/src
+
+WORKDIR /app/src
 
 RUN go get
 RUN go build main.go

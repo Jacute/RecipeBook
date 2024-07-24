@@ -15,9 +15,7 @@ var (
 func InitDB() {
 	var err error
 
-	connectionString := config.GetMySQL()
-
-	DB, err = sql.Open("mysql", connectionString)
+	DB, err = sql.Open("mysql", config.ConnectionString)
 	if err != nil {
 		panic(err.Error())
 	}
