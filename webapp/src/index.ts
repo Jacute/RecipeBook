@@ -34,9 +34,6 @@ app.use(
                 scriptSrc: [
                     "'self'",
                     (req, res) => `'nonce-${res.locals.nonce}'`,
-                ],
-                styleSrc: [
-                    "'self'"
                 ]
             },
         },

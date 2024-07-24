@@ -34,9 +34,6 @@ app.use((0, helmet_1.default)({
             scriptSrc: [
                 "'self'",
                 (req, res) => `'nonce-${res.locals.nonce}'`,
-            ],
-            styleSrc: [
-                "'self'"
             ]
         },
     },
