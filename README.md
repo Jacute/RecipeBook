@@ -23,12 +23,12 @@ RecipeBook — это веб-приложение для создания, хр�
 1. Склонируйте репозиторий:
     ```bash
    git clone https://github.com/Jacute/RecipeBook.git
-   cd RecipeBook
    ```
 
 2. Внесите данные БД в .env_db и создайте jwt ключи с помощью gen_jwt_keys.sh:
 
    ```bash
+   cd RecipeBook
    nano .env_db # change this
    chmod +x gen_jwt_keys.sh
    ./gen_jwt_keys.sh
@@ -38,7 +38,7 @@ RecipeBook — это веб-приложение для создания, хр�
 
 1. Запустите контейнеры с помощью Docker Compose:
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
 2. Откройте браузер и перейдите по адресу:
